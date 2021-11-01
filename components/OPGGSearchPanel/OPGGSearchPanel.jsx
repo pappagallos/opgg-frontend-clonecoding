@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import Image from 'next/image';
 
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { summonerClicked } from '../../reducers/summoner';
 
 import SearchSVG from './assets/images/icon-search.svg';
 
@@ -194,6 +196,8 @@ const OPGGTabSummonerDetailController = styled.div`
 `;
 
 const OPGGSearchPanel = () => {
+    const dispatch = useDispatch();
+
     const [debounceTimer, setDebounceTimer] = useState(null);
     const [searchKeyword, setSearchKeyword] = useState('');
     const [searchJson, setSearchJson] = useState();
@@ -241,8 +245,8 @@ const OPGGSearchPanel = () => {
         },
 
         onClickSummoner: (summoner) => {
-            console.log(summoner);
             eventHandler.addLatestSummoner(summoner);
+            dispatch(summonerClicked(summoner));
         },
 
         // 탭 검색 박스 열기
@@ -269,6 +273,8 @@ const OPGGSearchPanel = () => {
 
         // 최근검색에서 소환사 추가
         addLatestSummoner: (summoner) => {
+            dispatch(summonerClicked(summoner));
+
             const latestSummonerList = JSON.parse(localStorage.getItem('latest_summoner')) || [];
             const isExist = latestSummonerList.filter(filterSummoner => filterSummoner.name === summoner.name).length > 0;
             
@@ -300,6 +306,8 @@ const OPGGSearchPanel = () => {
 
         // 즐겨찾기에 소환사 추가 및 삭제
         blurFavoriteSummoner: (summoner) => {
+            dispatch(summonerClicked(summoner));
+
             const favoriteSummonerList = JSON.parse(localStorage.getItem('favorite_summoner')) || [];
             const isExist = favoriteSummonerList.filter(filterSummoner => filterSummoner.name === summoner.name).length > 0;
 
@@ -331,8 +339,8 @@ const OPGGSearchPanel = () => {
         // 검색 시 관련 소환사 자동완성 API
         fetchSummonerList: async (keyword) => {
             try {
-                const apiResult = await fetch(`/api/autocomplete?keyword=${keyword}`);
-                const apiJson = apiResult.json();
+                const apiResult = await fetch(`/api/summoner/autocomplete?keyword=${keyword}`);
+                const apiJson = await apiResult.json();
 
                 if (apiJson) {
                     return apiJson;

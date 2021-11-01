@@ -1,9 +1,9 @@
 import { all, fork } from "redux-saga/effects";
 
-import cart from './cart';
+import summoner from './summoner';
 
 export default function* rootSaga() {
     yield all([
-        fork(cart),
+        fork(summoner),
     ])
 }

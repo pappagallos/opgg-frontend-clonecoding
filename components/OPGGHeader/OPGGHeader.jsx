@@ -19,7 +19,7 @@ const OPGGHeaderArea = styled.div`
 
 const OPGGSearchArea = styled.div`
     position: absolute;
-    right: 0;
+    right: 14px;
     bottom: 12px;
 `;
 
