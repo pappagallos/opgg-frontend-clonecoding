@@ -278,7 +278,7 @@ const OPGGSummonerGames = () => {
 
                     // 게임 정보 정의
                     const gameResult = game.isWin ? '승리' : '패배';
-                    
+
                     // 아이템 개수가 기본적으로 8개 보여야 하는데 이하일 경우 빈 화면 채우기 위한 데이터 가공 작업
                     const lose = 8 - game.items.length;
         
@@ -296,7 +296,7 @@ const OPGGSummonerGames = () => {
                             {/* 게임 결과 및 플레이 시간 */}
                             <OPGGGameInfo>
                                 <GameType>{game.gameType}</GameType>
-                                <GameTimestamp>하루전</GameTimestamp>
+                                <GameTimestamp>{ UtilCommon.getTimeString(game.createDate) }</GameTimestamp>
                                 <Line style={{ backgroundColor: lineBackgroundColor }} />
                                 <GameResult style={{ color: gameResultColor }}>{ gameResult }</GameResult>
                                 <GamePlayTime>{UtilCommon.getGamePlayTime(game.gameLength)}</GamePlayTime>
