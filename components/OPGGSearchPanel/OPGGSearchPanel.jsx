@@ -244,6 +244,35 @@ const OPGGSearchPanel = () => {
             setDebounceTimer(debounce);
         },
 
+        // 소환사명 입력 후 검색 버튼 클릭
+        onClickSearch: async (keyword) => {
+            try {
+                const searchJson = await apiList.fetchSummonerList(keyword);
+
+                // 검색어가 2글자 일 경우, 중간에 띄어쓰기 추가
+                if (keyword.length === 2) {
+                    const tempKeyword = keyword.split('');
+                    keyword = tempKeyword[0] + ' ' + tempKeyword[1];
+                }
+
+                if (searchJson && searchJson.sections && searchJson.sections.length > 0) {
+                    setSearchJson(searchJson);
+                    
+                    const targetJson = searchJson.sections[0].groups[0].items;
+                    const summoner = targetJson.filter(summoner => summoner.name === keyword)[0];
+
+                    if (summoner) {
+                       eventHandler.onClickSummoner(targetJson.filter(summoner => summoner.name === keyword)[0]);
+                        eventHandler.closeSearchTab(); 
+                    }
+                }
+
+            } catch (error) {
+                throw new Error(error);
+            }
+        },
+
+        // 소환사 클릭
         onClickSummoner: (summoner) => {
             eventHandler.addLatestSummoner(summoner);
 
@@ -367,9 +396,8 @@ const OPGGSearchPanel = () => {
                     eventHandler.onChangeSearch(keyword);
                 }}
                 onFocus={() => eventHandler.openSearchTab()}
-                onBlur={(e) => console.log(e)}
             />
-            <SearchSVG />
+            <SearchSVG onClick={() => eventHandler.onClickSearch(searchKeyword)}/>
             
             {/* 사용자가 검색하려는 소환사 자동완성기 */}
             { (searchJson 

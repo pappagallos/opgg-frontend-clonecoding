@@ -90,7 +90,7 @@ const SoloRankWinRate = styled.p`
 
 const Unranked = styled.p`
     font-family: Helvetica;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
