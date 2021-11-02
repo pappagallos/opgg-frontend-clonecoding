@@ -204,6 +204,10 @@ const Wins = styled.div`
     border-top: 1px solid #3480c6;
     border-left: 1px solid #3480c6;
     border-bottom: 1px solid #3480c6;
+
+    p {
+        z-index: 1;
+    }
 `;
 
 const Losses = styled.div`
@@ -220,6 +224,10 @@ const Losses = styled.div`
     border-top: 1px solid #c6443e;
     border-right: 1px solid #c6443e;
     border-bottom: 1px solid #c6443e;
+
+    p {
+        z-index: 1;
+    }
 `;
 
 const OPGGWinRatePanel = () => {
@@ -320,8 +328,12 @@ const OPGGWinRatePanel = () => {
                                             <span style={{ color: UtilCommon.getWinRateColor(winRate) }}>{ winRate }%</span>
                                         </ChampionWinRate>
                                         <ChampionWinRateChart>
-                                            <Wins style={{ width: `${winRate}%` }}>{champions.wins}승</Wins>
-                                            <Losses style={{ width: `${lossRate}%` }}>{champions.losses}패</Losses>
+                                            <Wins style={{ width: `${winRate}%` }}>
+                                                <p>{champions.wins}승</p>
+                                            </Wins>
+                                            <Losses style={{ width: `${lossRate}%` }}>
+                                                <p>{champions.losses}패</p>
+                                            </Losses>
                                         </ChampionWinRateChart>
                                     </OPGGWinRateChampions>
                                 )
