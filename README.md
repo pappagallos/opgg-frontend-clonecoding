@@ -4,9 +4,9 @@
 
 사용한 기술스택
 -----
-1. Next.js
-2. Chart.js
-3. @emotion/styled(styled-component)
-4. Redux-saga
+1. next.js
+2. chart.js
+3. emotion(styled-component)
+4. redux-saga
 5. prop-types
 6. axios
