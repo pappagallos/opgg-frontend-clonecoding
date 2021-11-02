@@ -8,5 +8,4 @@
 2. chart.js
 3. emotion(styled-component)
 4. redux-saga
-5. prop-types
-6. axios
+5. axios
