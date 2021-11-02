@@ -1,34 +1,17 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+오피지지 프론트엔드 개발자 코딩테스트 과제물
+-----
+![스크린샷 2021-11-01 오후 10 14 49](https://user-images.githubusercontent.com/29040763/139678356-e285ca55-c020-45f6-bcbc-321207b29cea.png)
 
-## Getting Started
+설명
+-----
+안녕하세요. 오피지지 프론트엔드 개발자로 지원한 이우진 이라고 합니다.
 
-First, run the development server:
+과제를 완성하지 못한채로 제출하게 되었습니다. 시간을 연장하여 주셨음에도 불구하고 이전 회사에서의 인수인계 및 문서화로 인해 시간이 많이 허락되지 못했습니다. 저를 평가해주실 수 있는 가장 큰 제출물임에도 불구하고 어렵게 양해를 부탁드리면서 과제를 제출합니다.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+사용한 기술스택
+-----
+1. Next.js
+2. @emotion/styled(styled-component)
+3. Redux-saga
+4. prop-types
+5. axios
