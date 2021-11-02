@@ -289,6 +289,10 @@ const Tooltip = styled.div`
     letter-spacing: normal;
     color: #fff;
 
+    a {
+        color: #bbffff;
+    }
+
     &:after {
         top: 100%;
         left: 50%;
