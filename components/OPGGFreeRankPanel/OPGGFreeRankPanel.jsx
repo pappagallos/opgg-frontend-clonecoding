@@ -84,29 +84,56 @@ const FreeRankWinRate = styled.p`
     color: #879292;
 `;
 
+const Unranked = styled.p`
+    font-family: Helvetica;
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #879292;
+`;
+
 const OPGGFreeRankPanel = () => {
     const stateSummoner = useSelector(state => state.summoner);
 
     return (
         <>
             <OPGGFreeRankContainer>
-            { (stateSummoner.summonerDetail 
-                && stateSummoner.summonerDetail.summoner)
-                &&
-                <>
-                    <OPGGFreeRankImage src={stateSummoner.summonerDetail.summoner.leagues[1].tierRank.imageUrl} alt={stateSummoner.summonerDetail.summoner.name} />
-                    <OPGGFreeRankArea>
-                        <FreeRankTitle>자유 5:5 랭크</FreeRankTitle>
-                        <FreeRankTier>{stateSummoner.summonerDetail.summoner.leagues[1].tierRank.tier}</FreeRankTier>
-                        <FreeRankLP>
-                            <span>{stateSummoner.summonerDetail.summoner.leagues[1].tierRank.lp}LP</span>
-                            <span> / {stateSummoner.summonerDetail.summoner.leagues[1].wins}승 {stateSummoner.summonerDetail.summoner.leagues[1].losses}패</span>
-                        </FreeRankLP>
-                        <FreeRankWinRate>
-                            승률 {parseInt((stateSummoner.summonerDetail.summoner.leagues[1].wins / (stateSummoner.summonerDetail.summoner.leagues[1].wins + stateSummoner.summonerDetail.summoner.leagues[1].losses)) * 100)}%
-                        </FreeRankWinRate>
-                    </OPGGFreeRankArea>
-                </>
+            { 
+                (() => {
+                    // 랭크가 있을 경우
+                    if (stateSummoner.summonerDetail && stateSummoner.summonerDetail.summoner) {
+                        return (
+                        <>
+                            <OPGGFreeRankImage src={stateSummoner.summonerDetail.summoner.leagues[1].tierRank.imageUrl} alt={stateSummoner.summonerDetail.summoner.name} />
+                            <OPGGFreeRankArea>
+                                <FreeRankTitle>자유 5:5 랭크</FreeRankTitle>
+                                <FreeRankTier>{stateSummoner.summonerDetail.summoner.leagues[1].tierRank.tier}</FreeRankTier>
+                                <FreeRankLP>
+                                    <span>{stateSummoner.summonerDetail.summoner.leagues[1].tierRank.lp}LP</span>
+                                    <span> / {stateSummoner.summonerDetail.summoner.leagues[1].wins}승 {stateSummoner.summonerDetail.summoner.leagues[1].losses}패</span>
+                                </FreeRankLP>
+                                <FreeRankWinRate>
+                                    승률 {parseInt((stateSummoner.summonerDetail.summoner.leagues[1].wins / (stateSummoner.summonerDetail.summoner.leagues[1].wins + stateSummoner.summonerDetail.summoner.leagues[1].losses)) * 100)}%
+                                </FreeRankWinRate>
+                            </OPGGFreeRankArea>
+                        </>
+                        )
+                    } else {
+                        // 랭크가 없을 경우
+                        return (
+                            <>
+                                <OPGGFreeRankImage src='/assets/images/icon-unranked.png' alt={stateSummoner.summonerDetail.summoner.name} />
+                                <OPGGFreeRankArea>
+                                    <FreeRankTitle>솔로 랭크</FreeRankTitle>
+                                    <Unranked>Unranked</Unranked>
+                                </OPGGFreeRankArea>
+                            </>
+                        )
+                    }
+                })()
             }
             </OPGGFreeRankContainer>
         </>

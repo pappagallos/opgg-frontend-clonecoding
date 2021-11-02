@@ -14,13 +14,23 @@ const OPGGSummonerGamesContainer = styled.div`
 `;
 
 const OPGGSummonerGameItem = styled.div`
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 
     width: inherit;
     height: 96px;
     margin-bottom: 8px;
+    box-sizing: border-box;
+`;
+
+const GameMoreButton = styled.div`
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    width: 30px;
+    height: 100%;
 `;
 
 const OPGGGameInfo = styled.div`
@@ -261,8 +271,10 @@ const OPGGSummonerGames = () => {
                     // 색상 정보 정의
                     const borderColor = game.isWin ? '#a1b8cd' : '#c0aba8';
                     const backgroundColor = game.isWin ? '#b0ceea' : '#d6b5b2';
-                    const lineColor = game.isWin ? '#94b9d6' : '#d0a6a5';
+                    const lineBackgroundColor = game.isWin ? '#94b9d6' : '#d0a6a5';
                     const gameResultColor = game.isWin ? '#2c709b' : '#d0021b';
+                    const moreButtonBorderColor = game.isWin ? '#549dc7' : '#c8817c';
+                    const moreButtonBackgroundColor = game.isWin ? '#7fb0e1' : '#e89c95';
 
                     // 게임 정보 정의
                     const gameResult = game.isWin ? '승리' : '패배';
@@ -285,7 +297,7 @@ const OPGGSummonerGames = () => {
                             <OPGGGameInfo>
                                 <GameType>{game.gameType}</GameType>
                                 <GameTimestamp>하루전</GameTimestamp>
-                                <Line style={{ backgroundColor: lineColor }} />
+                                <Line style={{ backgroundColor: lineBackgroundColor }} />
                                 <GameResult style={{ color: gameResultColor }}>{ gameResult }</GameResult>
                                 <GamePlayTime>{UtilCommon.getGamePlayTime(game.gameLength)}</GamePlayTime>
                             </OPGGGameInfo>
@@ -338,6 +350,7 @@ const OPGGSummonerGames = () => {
                                     )
                                 }
                             </OPGGSummonerItems>
+                            <GameMoreButton style={{ border: `1px solid ${moreButtonBorderColor}`, backgroundColor: `${moreButtonBackgroundColor}` }} />
                         </OPGGSummonerGameItem>
                     )
                 })
