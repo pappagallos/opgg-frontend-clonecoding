@@ -299,7 +299,7 @@ const OPGGSummonerMatch = () => {
 
             // champions 가 기본적으로 3개 보여야 하는데 이하일 경우 빈 화면 채우기 위한 데이터 가공 작업
             const tempApiJson = {...apiJson};
-            const lose = 3 - tempApiJson.champions.length;
+            let lose = 3 - tempApiJson.champions.length;
 
             if (lose > 0) {
                 const champion = { imageUrl: '/assets/images/icon-blank-champion.png' };

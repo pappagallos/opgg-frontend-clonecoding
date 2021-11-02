@@ -21,17 +21,13 @@ const OPGGSummonerGameItem = styled.div`
     width: inherit;
     height: 96px;
     margin-bottom: 8px;
-
-    p {
-        line-height: 18px;
-    }
 `;
 
 const OPGGGameInfo = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 70px;
+    width: 70.5px;
 
     font-family: AppleSDGothicNeo;
     font-weight: normal;
@@ -40,6 +36,10 @@ const OPGGGameInfo = styled.div`
     line-height: normal;
     letter-spacing: -0.42px;
     color: #555;
+
+    p {
+        line-height: 18px;
+    }
 `;
 
 const Line = styled.div`
@@ -75,7 +75,7 @@ const OPGGChampion = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: auto;
+    width: 100px;
 `;
 
 const ChampionImageFrame = styled.div`
@@ -100,7 +100,7 @@ const ChampionSpell = styled.div`
         width: 22px;
         height: 22px;
 
-        &:first-child {
+        &:first-of-type {
             margin-bottom: 2px;
         }
     }
@@ -115,7 +115,7 @@ const ChampionPeak = styled.div`
         width: 22px;
         height: 22px;
 
-        &:first-child {
+        &:first-of-type {
             margin-bottom: 2px;
         }
     }
@@ -135,7 +135,108 @@ const ChampionName = styled.p`
 `;
 
 const OPGGSummonerScore = styled.p`
+    text-align: center;
+    width: 113px;
+`;
 
+const SummonerKDA = styled.p`
+    font-family: Helvetica;
+    font-size: 15px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.58px;
+    margin-bottom: 6px;
+
+    b {
+        &:nth-of-type(1), &:nth-of-type(3) {
+            color: #555e5e;
+        }
+
+        &:nth-of-type(2) {
+            color: #d0021b;
+        }
+    }
+`;
+
+const SummonerScore = styled.p`
+    font-family: Helvetica;
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.42px;
+    color: #333;
+`;
+
+const SummonerBadge = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 7px;
+
+    font-family: AppleSDGothicNeo;
+    font-size: 10px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #fff;
+`;
+
+const LargestMultiKillString = styled.p`
+    padding: 2px 5px;
+    border-radius: 15px;
+    border: solid 1px #bf3b36;
+    background-color: #ec4f48;
+    margin: 0 2px;
+`;
+
+const OpScoreBadge = styled.p`
+    padding: 2px 5px;
+    border-radius: 15px;
+    border: solid 1px #7f3590;
+    background-color: #8c51c5;
+    margin: 0 2px;
+`;
+
+const OPGGSummonerSubScore = styled.div`
+    width: 90px;
+    text-align: center;
+
+    font-family: AppleSDGothicNeo;
+    font-size: 11px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.42px;
+    color: #555e5e;
+
+    p {
+        line-height: 20px;
+    }
+
+    p:nth-of-type(3) {
+        color: #d0021b;
+    }
+`;
+
+const OPGGSummonerItems = styled.div`
+    width: 113.5px;
+    display: grid;
+    grid-template-columns: 22px 22px 22px 22px;
+    grid-gap: 2px;
+`;
+
+const SummonerItem = styled.div`
+    width: 22px;
+    height: 22px;
+    background-size: 22px 22px;
+    border-radius: 2px;
 `;
 
 const OPGGSummonerGames = () => {
@@ -148,7 +249,7 @@ const OPGGSummonerGames = () => {
 
         if (!name) {
             return;
-        }   
+        }
 
         setGames(stateSummoner.match.games);
     }, [stateSummoner.match]);
@@ -157,14 +258,30 @@ const OPGGSummonerGames = () => {
         <OPGGSummonerGamesContainer>
             {
                 games && games.map((game) => {
+                    // 색상 정보 정의
                     const borderColor = game.isWin ? '#a1b8cd' : '#c0aba8';
                     const backgroundColor = game.isWin ? '#b0ceea' : '#d6b5b2';
                     const lineColor = game.isWin ? '#94b9d6' : '#d0a6a5';
                     const gameResultColor = game.isWin ? '#2c709b' : '#d0021b';
+
+                    // 게임 정보 정의
                     const gameResult = game.isWin ? '승리' : '패배';
+                    
+                    // 아이템 개수가 기본적으로 8개 보여야 하는데 이하일 경우 빈 화면 채우기 위한 데이터 가공 작업
+                    const lose = 8 - game.items.length;
+        
+                    if (lose > 0) {
+                        const item = { imageUrl: '/assets/images/bg-noitem.png' };
+                        
+                        for (let i = 0; i < lose; i++) {
+                            game.items.push(item);
+                        }
+                    }
 
                     return (
+                        // 게임에 패배했는지 승리했는지에 따라 표시되는 색상 여부가 borderColor, backgroundColor 으로 변경된다.
                         <OPGGSummonerGameItem key={UtilCommon.getRandomKey()} style={{ border: `1px solid ${borderColor}`, background: `${backgroundColor}` }}>
+                            {/* 게임 결과 및 플레이 시간 */}
                             <OPGGGameInfo>
                                 <GameType>{game.gameType}</GameType>
                                 <GameTimestamp>하루전</GameTimestamp>
@@ -172,6 +289,8 @@ const OPGGSummonerGames = () => {
                                 <GameResult style={{ color: gameResultColor }}>{ gameResult }</GameResult>
                                 <GamePlayTime>{UtilCommon.getGamePlayTime(game.gameLength)}</GamePlayTime>
                             </OPGGGameInfo>
+
+                            {/* 플레이한 챔피언 정보 */}
                             <OPGGChampion>
                                 <ChampionImageFrame>
                                     <ChampionImage style={{ backgroundImage: `url(${game.champion.imageUrl})` }} />
@@ -185,13 +304,40 @@ const OPGGSummonerGames = () => {
                                     </ChampionPeak>
                                 </ChampionImageFrame>
                                 <ChampionName>
-                                    {/* API 에 챔피언 이름이 없음 */}
+                                    {/* API 에 챔피언 이름이 없어 이미지 파일명의 뒤 이름으로 표시 */}
                                     {game.champion.imageUrl.split('/')[6].replace('.png', '')}
                                 </ChampionName>
                             </OPGGChampion>
+
+                            {/* 플레이 평점 결과 */}
                             <OPGGSummonerScore>
-                                
+                                <SummonerKDA>
+                                    <b>{game.stats.general.kill}</b> / <b>{game.stats.general.death}</b> / <b>{game.stats.general.assist}</b>
+                                </SummonerKDA>
+                                <SummonerScore>
+                                    <span>{game.stats.general.kdaString}</span> 평점
+                                </SummonerScore>
+                                <SummonerBadge>
+                                    { game.stats.general.largestMultiKillString !== '' && <LargestMultiKillString>{game.stats.general.largestMultiKillString}</LargestMultiKillString> }
+                                    { game.stats.general.opScoreBadge !== '' && <OpScoreBadge>{game.stats.general.opScoreBadge}</OpScoreBadge> }
+                                </SummonerBadge>
                             </OPGGSummonerScore>
+
+                            {/* 플레이 부가 평점 결과 */}
+                            <OPGGSummonerSubScore>
+                                <p>레벨 {game.champion.level}</p>
+                                <p>{game.stats.general.cs} ({game.stats.general.csPerMin}) CS</p>
+                                <p>킬관여 {game.stats.general.contributionForKillRate}</p>
+                            </OPGGSummonerSubScore>
+
+                            {/* 아이템 */}
+                            <OPGGSummonerItems>
+                                { 
+                                    game.items && game.items.map(item => 
+                                        <SummonerItem style={{ backgroundImage: `url(${item.imageUrl})` }} key={UtilCommon.getRandomKey()} />
+                                    )
+                                }
+                            </OPGGSummonerItems>
                         </OPGGSummonerGameItem>
                     )
                 })
