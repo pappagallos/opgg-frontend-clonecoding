@@ -74,13 +74,13 @@ const OPGGWinRateChampions = styled.div`
 const ChampionImageFrame = styled.div`
     display: flex;
     align-items: center;
-    width: 120px;
+    width: 100px;
 `;
 
 const ChampionImage = styled.div`
-    width: 45px;
-    height: 45px;
-    background-size: 45px 45px;
+    width: 32px;
+    height: 32px;
+    background-size: 32px 32px;
     background-repeat: no-repeat;
     border-radius: 50%;
 `;
@@ -89,7 +89,7 @@ const ChampionCS = styled.div`
     display: flex;
     flex-direction: column;
     padding-left: 10px;
-    width: calc(120px - 55px);
+    width: calc(100px - 55px);
 
     span:nth-of-type(1) {
         font-family: AppleSDGothicNeo;
@@ -173,6 +173,55 @@ const ChampionWinRate = styled.div`
     }
 `;
 
+const ChampionWinRateChart = styled.div`
+    display: flex;
+    width: 123px;
+    height: 24px;
+    border-radius: 4px;
+
+    font-family: Helvetica;
+    font-size: 12px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #fff;
+`;
+
+const Wins = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 4px;
+    white-space: nowrap;
+
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    background: #1f8ecd;
+    color: #fff;
+    border-top: 1px solid #3480c6;
+    border-left: 1px solid #3480c6;
+    border-bottom: 1px solid #3480c6;
+`;
+
+const Losses = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 4px;
+    white-space: nowrap;
+
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    background: #ee5a52;
+    color: #fff;
+    border-top: 1px solid #c6443e;
+    border-right: 1px solid #c6443e;
+    border-bottom: 1px solid #c6443e;
+`;
+
 const OPGGWinRatePanel = () => {
     const dispatch = useDispatch();
     const stateSummoner = useSelector(state => state.summoner);
@@ -189,13 +238,6 @@ const OPGGWinRatePanel = () => {
 
         apiList.fetchWinRate(name, 'ko');
     }, [stateSummoner.summoner]);
-
-    /************************************************************
-     * 이벤트 핸들러
-     ************************************************************/
-    const eventHandler = {
-
-    }
 
     /************************************************************
      * API 리스트
@@ -265,7 +307,7 @@ const OPGGWinRatePanel = () => {
                                 const name = champions.name;
                                 const imageUrl = champions.imageUrl;
                                 const winRate = parseInt((champions.wins / (champions.wins + champions.losses)) * 100);
-
+                                const lossRate = 100 - winRate;
                                 return (
                                     <OPGGWinRateChampions key={UtilCommon.getRandomKey()}>
                                         <ChampionImageFrame>
@@ -277,6 +319,10 @@ const OPGGWinRatePanel = () => {
                                         <ChampionWinRate>
                                             <span style={{ color: UtilCommon.getWinRateColor(winRate) }}>{ winRate }%</span>
                                         </ChampionWinRate>
+                                        <ChampionWinRateChart>
+                                            <Wins style={{ width: `${winRate}%` }}>{champions.wins}승</Wins>
+                                            <Losses style={{ width: `${lossRate}%` }}>{champions.losses}패</Losses>
+                                        </ChampionWinRateChart>
                                     </OPGGWinRateChampions>
                                 )
                             })
