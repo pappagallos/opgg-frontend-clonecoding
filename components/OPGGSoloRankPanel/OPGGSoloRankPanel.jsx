@@ -109,38 +109,44 @@ const OPGGSoloRankPanel = () => {
                 (() => {
                     // 랭크가 있을 경우
                     if(stateSummoner.summonerDetail && stateSummoner.summonerDetail.summoner) {
-                        return (
-                            <>  
-                                <OPGGSoloRankImageArea>
-                                    <OPGGSoloRankImage src={stateSummoner.summonerDetail.summoner.leagues[0].tierRank.imageUrl} alt={stateSummoner.summonerDetail.summoner.name} />
-                                </OPGGSoloRankImageArea>
-                                <OPGGSoloRankArea>
-                                    <SoloRankTitle>솔로 랭크</SoloRankTitle>
-                                    <SoloRankTier>{stateSummoner.summonerDetail.summoner.leagues[0].tierRank.tier}</SoloRankTier>
-                                    <SoloRankLP>
-                                        <span>{stateSummoner.summonerDetail.summoner.leagues[0].tierRank.lp}LP</span>
-                                        <span> / {stateSummoner.summonerDetail.summoner.leagues[0].wins}승 {stateSummoner.summonerDetail.summoner.leagues[0].losses}패</span>
-                                    </SoloRankLP>
-                                    <SoloRankWinRate>
-                                        승률 {parseInt((stateSummoner.summonerDetail.summoner.leagues[0].wins / (stateSummoner.summonerDetail.summoner.leagues[0].wins + stateSummoner.summonerDetail.summoner.leagues[0].losses)) * 100)}%
-                                    </SoloRankWinRate>
-                                </OPGGSoloRankArea>
-                            </>
-                        );
-                        
-                    } else {
+                        const { leagues, name } = stateSummoner.summonerDetail.summoner;
+                        const { wins, losses, tierRank } = leagues[0];
+                        const { imageUrl, tier, lp } = tierRank;
+
+                        if (tier) {
+                            return (
+                                <>  
+                                    <OPGGSoloRankImageArea>
+                                        <OPGGSoloRankImage src={imageUrl} alt={name} />
+                                    </OPGGSoloRankImageArea>
+                                    <OPGGSoloRankArea>
+                                        <SoloRankTitle>솔로 랭크</SoloRankTitle>
+                                        <SoloRankTier>{tier}</SoloRankTier>
+                                        <SoloRankLP>
+                                            <span>{lp}LP</span>
+                                            <span> / {wins}승 {losses}패</span>
+                                        </SoloRankLP>
+                                        <SoloRankWinRate>
+                                            승률 {parseInt((wins / (wins + losses)) * 100)}%
+                                        </SoloRankWinRate>
+                                    </OPGGSoloRankArea>
+                                </>
+                            );
+
+                        } else {
                         // 랭크가 없을 경우
-                        return (
-                            <>
-                                <OPGGSoloRankImageArea>
-                                    <OPGGSoloRankImage src='/assets/images/icon-unranked.png' alt={stateSummoner.summonerDetail.summoner.name} />
-                                </OPGGSoloRankImageArea>
-                                <OPGGSoloRankArea>
-                                    <SoloRankTitle>솔로 랭크</SoloRankTitle>
-                                    <Unranked>Unranked</Unranked>
-                                </OPGGSoloRankArea>
-                            </>
-                        )
+                            return (
+                                <>
+                                    <OPGGSoloRankImageArea>
+                                        <OPGGSoloRankImage src='/assets/images/icon-unranked.png' alt={name} />
+                                    </OPGGSoloRankImageArea>
+                                    <OPGGSoloRankArea>
+                                        <SoloRankTitle>솔로 랭크</SoloRankTitle>
+                                        <Unranked>Unranked</Unranked>
+                                    </OPGGSoloRankArea>
+                                </>
+                            );
+                        }
                     }
                 })()
             }
