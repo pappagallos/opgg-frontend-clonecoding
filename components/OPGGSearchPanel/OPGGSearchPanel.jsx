@@ -246,7 +246,12 @@ const OPGGSearchPanel = () => {
 
         onClickSummoner: (summoner) => {
             eventHandler.addLatestSummoner(summoner);
+
             dispatch(summonerClicked(summoner));
+            setSearchKeyword('');
+            setSearchJson();
+
+            eventHandler.closeSearchTab();
         },
 
         // 탭 검색 박스 열기
@@ -306,8 +311,6 @@ const OPGGSearchPanel = () => {
 
         // 즐겨찾기에 소환사 추가 및 삭제
         blurFavoriteSummoner: (summoner) => {
-            dispatch(summonerClicked(summoner));
-
             const favoriteSummonerList = JSON.parse(localStorage.getItem('favorite_summoner')) || [];
             const isExist = favoriteSummonerList.filter(filterSummoner => filterSummoner.name === summoner.name).length > 0;
 
@@ -364,6 +367,7 @@ const OPGGSearchPanel = () => {
                     eventHandler.onChangeSearch(keyword);
                 }}
                 onFocus={() => eventHandler.openSearchTab()}
+                onBlur={(e) => console.log(e)}
             />
             <SearchSVG />
             
@@ -372,20 +376,18 @@ const OPGGSearchPanel = () => {
                     && searchJson.sections.length > 0 
                     && searchJson.sections[0].groups[0].items.length > 0) 
                     && 
-                    <>
-                        <OPGGSummonerList>
-                            { searchJson.sections[0].groups[0].items.map((summoner) => 
-                                    <OPGGSummonerItem key={summoner.name} onClick={() => eventHandler.onClickSummoner(summoner)}>
-                                        <SummonerProfileIcon src={summoner.profileIconUrl} alt={summoner.name} />
-                                        <SummonerDetailArea>
-                                            <p dangerouslySetInnerHTML={{ __html: summoner.keyword }}></p>
-                                            { summoner.tierRank ? <p>{summoner.tierRank.tierRank} - {summoner.tierRank.lp}LP</p> : <p>Level {summoner.level}</p> }
-                                        </SummonerDetailArea>
-                                    </OPGGSummonerItem>
-                                )
-                            }
-                        </OPGGSummonerList>
-                    </>
+                    <OPGGSummonerList>
+                        { searchJson.sections[0].groups[0].items.map((summoner) => 
+                                <OPGGSummonerItem key={summoner.name} onClick={() => eventHandler.onClickSummoner(summoner)}>
+                                    <SummonerProfileIcon src={summoner.profileIconUrl} alt={summoner.name} />
+                                    <SummonerDetailArea>
+                                        <p dangerouslySetInnerHTML={{ __html: summoner.keyword }}></p>
+                                        { summoner.tierRank ? <p>{summoner.tierRank.tierRank} - {summoner.tierRank.lp}LP</p> : <p>Level {summoner.level}</p> }
+                                    </SummonerDetailArea>
+                                </OPGGSummonerItem>
+                            )
+                        }
+                    </OPGGSummonerList>
             }
 
             {/* 최근검색 및 즐겨찾기 */}
@@ -420,7 +422,7 @@ const OPGGSearchPanel = () => {
                                     return (
                                         latestSearchSummonerList.map(summoner => 
                                             <OPGGTabSummonerDetail key={summoner.name}>
-                                                <p onClick={() => eventHandler.addLatestSummoner(summoner)}>{summoner.name}</p>
+                                                <p onClick={() => eventHandler.onClickSummoner(summoner)}>{summoner.name}</p>
 
                                                 {/* 즐겨찾기에 추가되었을 경우 파란별, 추가 안되어 있을 경우 회색별 아이콘 보여주기 */}
                                                 <OPGGTabSummonerDetailController>
@@ -451,7 +453,7 @@ const OPGGSearchPanel = () => {
                                     return (
                                         favoriteSearchSummonerList.map(summoner => 
                                             <OPGGTabSummonerDetail key={summoner.name}>
-                                                <p onClick={() => eventHandler.addLatestSummoner(summoner)}>{summoner.name}</p>
+                                                <p onClick={() => eventHandler.onClickSummoner(summoner)}>{summoner.name}</p>
                                                 <OPGGTabSummonerDetailController>
                                                     <Image src='/assets/images/icon-history-delete.png' alt='제거' width={16} height={16} onClick={() => eventHandler.blurFavoriteSummoner(summoner)} />
                                                 </OPGGTabSummonerDetailController>
