@@ -26,11 +26,20 @@ const OPGGSummonerGameItem = styled.div`
 `;
 
 const GameMoreButton = styled.div`
+    display: flex;
+    justify-content: center;
     position: absolute;
     top: -1px;
     right: -1px;
     width: 30px;
     height: 100%;
+
+    img {
+        position: absolute;
+        width: 13px;
+        height: 10px;
+        bottom: 12px;
+    }
 `;
 
 const OPGGGameInfo = styled.div`
@@ -350,7 +359,13 @@ const OPGGSummonerGames = () => {
                                     )
                                 }
                             </OPGGSummonerItems>
-                            <GameMoreButton style={{ border: `1px solid ${moreButtonBorderColor}`, backgroundColor: `${moreButtonBackgroundColor}` }} />
+
+                            {/* 더보기 */}
+                            <GameMoreButton style={{ border: `1px solid ${moreButtonBorderColor}`, backgroundColor: `${moreButtonBackgroundColor}` }}>
+                                { 
+                                    game.isWin ? <img src='/assets/images/icon-match-wins-more.png' alt='more' /> : <img src='/assets/images/icon-match-losses-more.png' alt='more' />
+                                }
+                            </GameMoreButton>
                         </OPGGSummonerGameItem>
                     )
                 })
