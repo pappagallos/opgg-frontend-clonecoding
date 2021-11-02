@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import UtilCommon from '../../utils/common';
+
+import itemJson from '../../public/assets/json/item.json';
 
 const OPGGSummonerGamesContainer = styled.div`
     display: flex;
@@ -252,10 +254,52 @@ const OPGGSummonerItems = styled.div`
 `;
 
 const SummonerItem = styled.div`
+    position: relative;
     width: 22px;
     height: 22px;
     background-size: 22px 22px;
     border-radius: 2px;
+
+    &:hover div {
+        visibility: visible;
+    }
+
+    div {
+        visibility: hidden;
+        position: absolute;
+        z-index: 1;
+    }
+`;
+
+// 툴팁 만드는 방법, https://deeplify.dev/front-end/markup/tooltip 참고
+const Tooltip = styled.div`
+    width: 300px;
+    bottom: 170%;
+
+    padding: 10px;
+    margin-left: -149px;
+    background: #222727;
+
+    font-family: AppleSDGothicNeo;
+    font-size: 11px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.36;
+    letter-spacing: normal;
+    color: #fff;
+
+    &:after {
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-color: #222727 transparent transparent transparent;
+
+        content: " ";
+        position: absolute;
+        border-style: solid;
+        border-width: 5px;
+    }
 `;
 
 const OPGGSummonerGames = () => {
@@ -354,9 +398,16 @@ const OPGGSummonerGames = () => {
                             {/* 아이템 */}
                             <OPGGSummonerItems>
                                 { 
-                                    game.items && game.items.map(item => 
-                                        <SummonerItem style={{ backgroundImage: `url(${item.imageUrl})` }} key={UtilCommon.getRandomKey()} />
-                                    )
+                                    game.items && game.items.map(item => {
+                                        const itemNo = item.imageUrl.replace(/[^0-9]/gi, '');
+                                        const description = Object(itemJson.data[itemNo]).hasOwnProperty('description') ? itemJson.data[itemNo]['description'] : null;
+                                        
+                                        return (
+                                            <SummonerItem style={{ backgroundImage: `url(${item.imageUrl})` }} key={UtilCommon.getRandomKey()}>
+                                                { description && <Tooltip dangerouslySetInnerHTML={{__html: description }}/> }
+                                            </SummonerItem>
+                                        )
+                                    })
                                 }
                             </OPGGSummonerItems>
 
