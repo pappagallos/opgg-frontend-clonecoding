@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { saveMatch } from '../../reducers/summoner';
 import UtilCommon from '../../utils/common';
 
+import { Doughnut } from "react-chartjs-2";
+
 const OPGGSummonerMatchContainer = styled.div`
     margin: 0 auto;
     width: 690px;
@@ -79,10 +81,29 @@ const OPGGMatchKDA = styled.div`
 `;
 
 const KDAChart = styled.div`
+    position: relative;
     width: 90px;
     height: 100%;
     text-align: center;
     margin-right: 35px;
+
+    p:nth-of-type(2) {
+        position: absolute;
+        top: 65px;
+        left: 20px;
+        width: 50px;
+        text-align: center;
+
+        font-family: Helvetica;
+        font-size: 12px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: #555;
+    }
 `;
 
 const KDARateArea = styled.div`
@@ -329,13 +350,26 @@ const OPGGSummonerMatch = () => {
                     const killsRate = (kills / games).toFixed(2);
                     const deathsRate = (deaths / games).toFixed(2);
                     const assistsRate = (assists / games).toFixed(2);
+                    
+                    // chart.js 사용법 https://codesandbox.io/s/2vk444nowj?file=/src/index.js:960-1109 참고
+                    const doughnutChartData = {
+                        datasets: [
+                            {
+                                // 패, 승 순서대로
+                                data: [losses, wins],
+                                backgroundColor: ['#ee5a52', '#1f8ecd'],
+                                hoverBackgroundColor: ['#ee5a52', '#1f8ecd']
+                            }
+                        ]
+                    }
 
                     return (
                         <OPGGMatchPanel>
                             <OPGGMatchKDA>
                                 <KDAChart>
                                     <p>{ games }전 { wins }승 { losses }패</p>
-                                    {/* chart.js */}
+                                    <Doughnut data={doughnutChartData} style={{ marginTop: '7px' }} />
+                                    <p>{ Math.round((wins / games) * 100)}%</p>
                                 </KDAChart>
                                 <KDARateArea>
                                     <KDARateBox>
