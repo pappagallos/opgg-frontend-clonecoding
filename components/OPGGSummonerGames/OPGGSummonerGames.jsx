@@ -324,7 +324,7 @@ const OPGGSummonerGames = () => {
     return (
         <OPGGSummonerGamesContainer>
             {
-                games && games.map((game) => {
+                games && games.map((game, index) => {
                     // 색상 정보 정의
                     const borderColor = game.isWin ? '#a1b8cd' : '#c0aba8';
                     const backgroundColor = game.isWin ? '#b0ceea' : '#d6b5b2';
@@ -349,7 +349,7 @@ const OPGGSummonerGames = () => {
 
                     return (
                         // 게임에 패배했는지 승리했는지에 따라 표시되는 색상 여부가 borderColor, backgroundColor 으로 변경된다.
-                        <OPGGSummonerGameItem key={UtilCommon.getRandomKey()} style={{ border: `1px solid ${borderColor}`, background: `${backgroundColor}` }}>
+                        <OPGGSummonerGameItem key={index} style={{ border: `1px solid ${borderColor}`, background: `${backgroundColor}` }}>
                             {/* 게임 결과 및 플레이 시간 */}
                             <OPGGGameInfo>
                                 <GameType>{game.gameType}</GameType>
@@ -402,12 +402,12 @@ const OPGGSummonerGames = () => {
                             {/* 아이템 */}
                             <OPGGSummonerItems>
                                 { 
-                                    game.items && game.items.map(item => {
+                                    game.items && game.items.map((item, index) => {
                                         const itemNo = item.imageUrl.replace(/[^0-9]/gi, '');
                                         const description = Object(itemJson.data[itemNo]).hasOwnProperty('description') ? itemJson.data[itemNo]['description'] : null;
                                         
                                         return (
-                                            <SummonerItem style={{ backgroundImage: `url(${item.imageUrl})` }} key={UtilCommon.getRandomKey()}>
+                                            <SummonerItem style={{ backgroundImage: `url(${item.imageUrl})` }} key={index}>
                                                 { description && <Tooltip dangerouslySetInnerHTML={{__html: description }}/> }
                                             </SummonerItem>
                                         )

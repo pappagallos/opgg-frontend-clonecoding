@@ -278,7 +278,7 @@ const OPGGWinRatePanel = () => {
                 (() => {
                     if (tab === 'champions' && mostInfo.champions && mostInfo.champions.length > 0) {
                         return (
-                            mostInfo.champions.map(champions => {
+                            mostInfo.champions.map((champions, index) => {
                                 const { name, cs, imageUrl, kills, deaths, assists, wins, losses } = champions;
                                 const games = champions.wins + champions.losses;
 
@@ -289,7 +289,7 @@ const OPGGWinRatePanel = () => {
                                 const assistsRate = (assists / games).toFixed(2);
 
                                 return (
-                                <OPGGWinRateChampions key={UtilCommon.getRandomKey()}>
+                                <OPGGWinRateChampions key={index}>
                                     <ChampionImageFrame>
                                         <ChampionImage style={{ backgroundImage: `url(${imageUrl})` }} />
                                         <ChampionCS>
@@ -311,13 +311,13 @@ const OPGGWinRatePanel = () => {
                         )
                     } else if (tab === 'recentWinRate' && mostInfo.recentWinRate && mostInfo.recentWinRate.length > 0) {
                         return (
-                            mostInfo.recentWinRate.map(champions => {
+                            mostInfo.recentWinRate.map((champions, index) => {
                                 const name = champions.name;
                                 const imageUrl = champions.imageUrl;
                                 const winRate = parseInt((champions.wins / (champions.wins + champions.losses)) * 100);
                                 const lossRate = 100 - winRate;
                                 return (
-                                    <OPGGWinRateChampions key={UtilCommon.getRandomKey()}>
+                                    <OPGGWinRateChampions key={index}>
                                         <ChampionImageFrame>
                                             <ChampionImage style={{ backgroundImage: `url(${imageUrl})` }} />
                                             <ChampionCS>

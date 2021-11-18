@@ -389,7 +389,7 @@ const OPGGSummonerMatch = () => {
                             </OPGGMatchKDA>
                             <OPGGMatchChampions>
                                 {
-                                    matchInfo.champions.map(champions => {
+                                    matchInfo.champions.map((champions, index) => {
                                         // 챔피언 있을 때
                                         if (champions.name) {
                                             const championName = champions.name;
@@ -401,7 +401,7 @@ const OPGGSummonerMatch = () => {
                                             const championWinRate = parseInt((championWins / (championWins + championLosses)) * 100);
                                             
                                             return (
-                                                <ChampionFrame key={UtilCommon.getRandomKey()}>
+                                                <ChampionFrame key={index}>
                                                     <ChampionImage style={{ backgroundImage: `url(${championImageUrl})` }} />
                                                     <ChampionMatchInfo>
                                                         <span>{ championName }</span>
@@ -418,7 +418,7 @@ const OPGGSummonerMatch = () => {
                                             const championImageUrl = champions.imageUrl;
 
                                             return (
-                                                <ChampionFrame key={UtilCommon.getRandomKey()}>
+                                                <ChampionFrame key={index}>
                                                     <ChampionImage style={{ backgroundImage: `url(${championImageUrl})` }} />
                                                     <ChampionMatchInfo>
                                                         <NoChampion>챔피언 정보가 없습니다.</NoChampion>
@@ -432,12 +432,12 @@ const OPGGSummonerMatch = () => {
                             <OPGGMostPosition>
                                 <p style={{ marginBottom: '20px' }}>선호 포지션 (랭크)</p>
                                 {
-                                    matchInfo.positions.map(positions => {
+                                    matchInfo.positions.map((positions, index) => {
                                         const { wins, games } = positions;
                                         const winRate = parseInt((wins / games) * 100);
 
                                         return (
-                                            <PositionFrame key={UtilCommon.getRandomKey()}>
+                                            <PositionFrame key={index}>
                                                 <PositionImage style={{ backgroundImage: `url('/assets/images/icon-mostposition-${String(positions.position).toLowerCase()}.png')` }} />
                                                 <PositionMatchInfo>
                                                     <span>{ positions.positionName }</span>
